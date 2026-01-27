@@ -81,23 +81,27 @@ This approach prioritizes **stability and safety over speed**.
 
 ---
 
-## Ethical & usage notice
+## Credentials file format
 
-This project is intended for **personal experimentation and educational purposes**.
+Create a file named **`credentials.txt`** in the project root.  
+Each user block must be separated by a blank line.
 
-You are responsible for:
-- Complying with MeroShare’s terms and policies
-- Ensuring you have authorization to use the provided credentials
-- Understanding the risks involved in automating financial actions
+### Example format
 
-Use responsibly.
+```txt
+UserID=1
+MS_DP=EXAMPLE BANK LIMITED (00000)
+MS_USERNAME=00000001
+MS_PASSWORD=ExamplePassword@123
+MS_CRN=00-000000001
+MS_PIN=1111
+HEADLESS=false
 
----
 
-## Final note
-
-This repository represents a collaboration between **human intent and AI-assisted engineering**:
-- AI was used to analyze failures, timing issues, and Angular behavior
-- All final decisions, testing, and responsibility remain with the user
-
-The objective was to understand and stabilize a complex real-world UI flow — not to exploit it.
+UserID=2
+MS_DP=EXAMPLE BANK LIMITED (00000)
+MS_USERNAME=00000002
+MS_PASSWORD=ExamplePassword@123
+MS_CRN=00-000000002
+MS_PIN=2222
+HEADLESS=false
