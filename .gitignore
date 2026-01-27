@@ -137,3 +137,22 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# =========================
+# MeroShare Automation (Custom)
+# =========================
+
+# Sensitive credentials (MUST NEVER COMMIT)
+credentials.txt
+accounts.json
+
+# Selenium / Chrome artifacts
+chromedriver
+chromedriver.exe
+selenium-debug.log
+
+# Generated output / reports
+*.csv
+
+# Temporary screenshots (if enabled later)
+screenshots/
