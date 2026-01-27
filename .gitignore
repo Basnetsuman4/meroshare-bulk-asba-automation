@@ -145,6 +145,7 @@ vite.config.ts.timestamp-*
 # Sensitive credentials (MUST NEVER COMMIT)
 credentials.txt
 accounts.json
+master_summary.csv
 
 # Selenium / Chrome artifacts
 chromedriver
