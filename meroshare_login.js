@@ -238,14 +238,57 @@ async function meroshareLogin(account) {
 
 		if (disabled === null) {
 			await actions.move({ origin: finalApply }).pause(600).click().perform();
-			console.log(`✔ User ${account.id}: Apply clicked`);
-			await driver.sleep(5000);
-		} else {
-			console.log(`⚠ User ${account.id}: Apply locked`);
-		}
+			console.log(`✔ User ${account.id}: Apply button clicked, checking submission status...`);
 
-		console.log("✔ Apply submitted. Closing tab in 15 seconds...");
-		await driver.sleep(15000);
+			// Wait for submission result (success modal, error message, or other indicators)
+			await driver.sleep(3000);
+
+			try {
+				// Check for success indicators (modal, toast, or success message)
+				// Note: Using broad XPath to catch various success message formats since
+				// the exact DOM structure of MeroShare may vary across updates
+				const successElement = await driver.wait(
+					until.elementLocated(
+						By.xpath(
+							"//*[contains(text(),'Success') or contains(text(),'success') or contains(text(),'submitted') or contains(text(),'Submitted') or contains(@class,'success') or contains(@class,'alert-success')]",
+						),
+					),
+					10000,
+				);
+
+				const successText = await successElement.getText();
+				console.log(`✔ User ${account.id}: Application submitted successfully!`);
+				console.log(`   Success message: ${successText}`);
+			} catch (successError) {
+				// Check for error indicators
+				// Note: Using broad XPath to catch various error message formats
+				try {
+					const errorElement = await driver.findElement(
+						By.xpath(
+							"//*[contains(text(),'Error') or contains(text(),'error') or contains(text(),'failed') or contains(text(),'Failed') or contains(@class,'error') or contains(@class,'alert-danger')]",
+						),
+					);
+
+					const errorText = await errorElement.getText();
+					console.log(`❌ User ${account.id}: Application submission failed!`);
+					console.log(`   Error message: ${errorText}`);
+				} catch (errorCheckError) {
+					// No clear success or error message found
+					console.log(
+						`⚠ User ${account.id}: Apply button was clicked, but submission status is unclear.`,
+					);
+					console.log(
+						`   Please manually verify the submission in the browser.`,
+					);
+				}
+			}
+
+			await driver.sleep(15000);
+		} else {
+			console.log(`⚠ User ${account.id}: Apply button is disabled/locked`);
+			console.log(`   Please verify the form was filled correctly.`);
+			await driver.sleep(15000);
+		}
 	} catch (e) {
 		console.error(`❌ User ${account.id} ERROR:`, e.message);
 	} finally {
