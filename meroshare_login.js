@@ -245,6 +245,8 @@ async function meroshareLogin(account) {
 
 			try {
 				// Check for success indicators (modal, toast, or success message)
+				// Note: Using broad XPath to catch various success message formats since
+				// the exact DOM structure of MeroShare may vary across updates
 				const successElement = await driver.wait(
 					until.elementLocated(
 						By.xpath(
@@ -259,6 +261,7 @@ async function meroshareLogin(account) {
 				console.log(`   Success message: ${successText}`);
 			} catch (successError) {
 				// Check for error indicators
+				// Note: Using broad XPath to catch various error message formats
 				try {
 					const errorElement = await driver.findElement(
 						By.xpath(
@@ -283,7 +286,8 @@ async function meroshareLogin(account) {
 			await driver.sleep(15000);
 		} else {
 			console.log(`⚠ User ${account.id}: Apply button is disabled/locked`);
-			await driver.sleep(5000);
+			console.log(`   Please verify the form was filled correctly.`);
+			await driver.sleep(15000);
 		}
 	} catch (e) {
 		console.error(`❌ User ${account.id} ERROR:`, e.message);
